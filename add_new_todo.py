@@ -27,6 +27,6 @@ def add_new_todo(db_name, table_name, new_todo):
 			print("Connection closed")
 
 
-add_new_todo('todos', todo)
+add_new_todo('todos', 'todo', todo)
 
 
