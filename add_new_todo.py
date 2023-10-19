@@ -4,7 +4,7 @@ todo = {'title':'Learn Flask', 'description': 'Do Flask REST API to excercize',
 	'status': 'todo', 'deadline': '2023/12/21'
 }
 
-def add_new_todo(db_name, todo):
+def add_new_todo(db_name, table_name, new_todo):
 	try:
 		cursor, db_connection = get_connection(db_name)
 		query = """INSERT INTO todo ({}) VALUES ('{}', '{}', '{}', '{}')""".format(
