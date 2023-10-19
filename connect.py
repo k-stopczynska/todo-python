@@ -4,7 +4,6 @@ from utils import get_db_credentials
 
 
 user, password, host = get_db_credentials()
-db_name = 'todo_list'
 
 
 def connect_db(db_name):
