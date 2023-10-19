@@ -1,4 +1,4 @@
-from connect import get_connection
+from db.connect import get_connection
 
 
 def delete_todo(db_name, table_name, todo_id):

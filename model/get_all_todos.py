@@ -1,11 +1,9 @@
-from connect import get_connection
+from db.connect import get_connection
 
-
-def get_todos_by_status(db_name, table_name, status):
+def get_all_todos(db_name, table_name):
 	try:
 		cursor, db_connection = get_connection(db_name)
-		query = """SELECT * FROM {} as t WHERE t.status = '{}'""".format(table_name, status)
-		print(query)
+		query = """SELECT * FROM {}""".format(table_name)
 		cursor.execute(query)
 		results = cursor.fetchall()
 		for result in results:
@@ -21,4 +19,4 @@ def get_todos_by_status(db_name, table_name, status):
 			print("Connection closed")
 
 
-get_todos_by_status('todos', 'todo', 'done')
+get_all_todos('todos', 'todo')

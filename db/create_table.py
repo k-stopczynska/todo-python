@@ -1,5 +1,5 @@
-from create_db import create_and_use_db
-from connect import get_connection
+from db.create_db import create_and_use_db
+from db.connect import get_connection
 
 
 def create_table():
@@ -17,3 +17,6 @@ def create_table():
 		if db_connection:
 			db_connection.close()
 			print("Connection closed")
+
+
+create_table()

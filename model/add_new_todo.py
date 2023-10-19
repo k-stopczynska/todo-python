@@ -1,7 +1,7 @@
-from connect import get_connection
+from db.connect import get_connection
 
-todo = {'title':'Learn Flask', 'description': 'Do Flask REST API to excercize',
-	'status': 'todo', 'deadline': '2023/12/21'
+todo = {'title':'go to a session', 'description': 'learning session make you a better developer',
+	'status': 'todo', 'deadline': '2023/10/22'
 }
 
 def add_new_todo(db_name, table_name, new_todo):

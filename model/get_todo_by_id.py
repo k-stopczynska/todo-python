@@ -1,4 +1,4 @@
-from connect import get_connection
+from db.connect import get_connection
 
 
 def get_todo_by_id(db_name, table_name, todo_id):

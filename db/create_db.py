@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 import logging
-from connect import get_connection
+from db.connect import get_connection
 
 
 

@@ -1,4 +1,4 @@
-from connect import get_connection
+from db.connect import get_connection
 
 new_todo = {'title': 'Learn Django', 'description': 'Do Django REST API to excercize',
 			'status': 'todo', 'deadline': '2023/12/21'

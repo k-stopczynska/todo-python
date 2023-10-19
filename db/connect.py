@@ -1,6 +1,6 @@
 import mysql.connector
 import logging
-from utils import get_db_credentials
+from db.utils import get_db_credentials
 
 
 user, password, host = get_db_credentials()
