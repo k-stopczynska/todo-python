@@ -25,3 +25,9 @@ def connect_db(db_name):
 		raise e
 
 
+def get_connection(db_name):
+	db_connection = connect_db(db_name)
+	cursor = db_connection.cursor()
+	return cursor, db_connection
+
+
