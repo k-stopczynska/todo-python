@@ -18,4 +18,4 @@ def delete_todo(db_name, table_name, todo_id):
 			print("Connection closed")
 
 
-delete_todo('todos', 'todo', 1)
+delete_todo('todos', 'todo', 3)
