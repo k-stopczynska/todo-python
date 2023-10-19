@@ -9,7 +9,7 @@ user, password, host = get_db_credentials()
 def connect_db(db_name):
 	try:
 		db_connection = mysql.connector.connect(
-			host, user, password, database=db_name
+			host=host, user=user, password=password, database=db_name
 		)
 		return db_connection
 	except mysql.connector.Error as e:
@@ -19,7 +19,6 @@ def connect_db(db_name):
 		print(f"ValueError: {e}")
 		raise e
 	except Exception as e:
-		# Catch unexpected exceptions, log them, and raise to crash the program
 		logging.exception(f"Unexpected error occurred: {e}")
 		raise e
 

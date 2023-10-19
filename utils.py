@@ -1,23 +1,18 @@
-import json
 import logging
+from config import credentials
 
 
-def get_db_credentials(config_file):
+def get_db_credentials():
 	try:
-		with open(config_file) as reader:
-			data = json.load(reader)
-			user = data['user']
-			password = data['password']
-			host = data['host']
-		if not user or not password or not host:
-			print ('Invalid credentials in config file')
-			raise ValueError('invalid credentials')
-		return user, password, host
-	except FileNotFoundError as e:
-		print(f"The file '{config_file}' does not exist.")
-		raise e
-	except (KeyError, json.JSONDecodeError) as e:
-		print(f"Error reading credentials from '{config_file}': {e}")
+		user = credentials['user']
+		password = credentials['password']
+		host = credentials['host']
+		if user and password and host:
+			return user, password, host
+		else:
+			raise ValueError
+	except ValueError as e:
+		print(f"Error reading credentials: {e}")
 		raise e
 	except Exception as e:
 		logging.exception(f"Unexpected error occurred: {e}")

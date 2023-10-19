@@ -1,4 +1,6 @@
 from flask import Flask, render_template
+from create_table import create_table
+
 
 app = Flask(__name__)
 
@@ -9,7 +11,5 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-
-
+    create_table()
+    app.run(debug=True, use_reloader=False)
