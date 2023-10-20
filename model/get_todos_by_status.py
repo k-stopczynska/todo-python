@@ -1,4 +1,5 @@
 from db.connect import get_connection
+from db.utils import map_tuple_to_dict
 
 
 def get_todos_by_status(db_name, table_name, status):
@@ -8,8 +9,7 @@ def get_todos_by_status(db_name, table_name, status):
 		print(query)
 		cursor.execute(query)
 		results = cursor.fetchall()
-		for result in results:
-			print(result)
+		todos = map_tuple_to_dict(results)
 		cursor.close()
 
 	except Exception as e:
@@ -19,6 +19,6 @@ def get_todos_by_status(db_name, table_name, status):
 		if db_connection:
 			db_connection.close()
 			print("Connection closed")
-
+	return todos
 
 get_todos_by_status('todos', 'todo', 'done')

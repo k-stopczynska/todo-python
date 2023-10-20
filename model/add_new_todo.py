@@ -1,4 +1,5 @@
 from db.connect import get_connection
+from db.utils import map_tuple_to_dict
 
 todo = {'title':'go to a session', 'description': 'learning session make you a better developer',
 	'status': 'todo', 'deadline': '2023/10/22'
