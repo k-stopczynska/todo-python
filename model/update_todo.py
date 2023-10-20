@@ -21,6 +21,3 @@ def update_todo(db_name, table_name, todo, todo_id):
 			print("Connection closed")
 
 
-update_todo('todos', 'todo', new_todo, 1)
-
-
