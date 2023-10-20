@@ -1,0 +1,12 @@
+{
+  "name": "view",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "proxy": "http://127.0.0.1:5000/",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
