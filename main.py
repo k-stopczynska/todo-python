@@ -25,10 +25,7 @@ def get_todos():
     print(response)
     return jsonify(response)
 
-def add_todo():
-    new_todo = request.get_json()
-    add_new_todo(db_name, table_name, new_todo)
-    return new_todo
+
 
 def update_existing_todo():
     updated_todo = request.get_json()
@@ -41,16 +38,12 @@ def remove_todo():
     delete_todo(db_name, table_name, todo_id)
     return todo_id
 
-@app.route('/', methods=["GET", "POST", "PUT", "DELETE"])
+@app.route('/', methods=["GET", "PUT", "DELETE"])
 def home():
     response = None
     if request.method == 'GET':
         response = get_all_todos(db_name, table_name)
         print(response)
-     
-    if request.method == "POST":
-        response = request.get_json()
-        add_new_todo(db_name, table_name, response)
 
     if request.method == "PUT":
         response = request.get_json()
@@ -61,6 +54,13 @@ def home():
         response = request.get_json()
         delete_todo(db_name, table_name, response)
     return jsonify(response)
+
+
+@app.route('/add_todo', methods=['POST'])
+def add_todo():
+    new_todo = request.get_json()
+    add_new_todo(db_name, table_name, new_todo)
+    return new_todo
        
 @app.route('/status/<status>', endpoint='get_by_status')
 def get_by_status(status):
