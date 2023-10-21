@@ -14,7 +14,7 @@ const getResponse = async (params) => {
                     'Accept': 'application/json',
                     "Access-Control-Origin": "*"
                 },
-                body: JSON.stringify(body)
+                body: JSON.stringify(body),
             })    
         if (!response.ok) {
             throw new Error(errorMessage);
@@ -38,6 +38,23 @@ const getAllTodos = async () => {
     }
         const todos = await response.json();
         return todos;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+const getTodoById = async (todoId) => {
+           try {
+        const response = await fetch(BASE_URL + `id/${todoId['todo_id']}`, {       headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    "Access-Control-Origin": "*"
+                },})
+    if (!response.ok) {
+        throw new Error('Could not fetch this one!');
+    }
+        const todo = await response.json();
+        console.log(todo)
     } catch (err) {
         console.log(err);
     }
@@ -79,8 +96,8 @@ const createTodoElem = async () => {
                     <p class="list__elem-date">${todo.deadline}</p>
                 </div>
                 <div class="list__elem-just-between">
-                    <a href='/update__todo'>
-                        <img class="list__elem-img" src='../assets/update.png' alt='update'/>
+                    <a href='#' data-id="update-${todo.todo_id}">
+                        <img class="list__elem-img" src='../assets/update.png' alt='update' data-id="update-${todo.todo_id}"/>
                     </a>
                     <button data-id="delete-${todo.todo_id}" >
                         <img class="list__elem-img" src='../assets/delete.png' alt='delete' data-id="delete-${todo.todo_id}"/>
@@ -128,8 +145,19 @@ const handleDeleteTodo = (e) => {
     }
 }
 
+const handleUpdateTodo = (e) => {
+    if (e.target.getAttribute('data-id').includes('update')) {
+        const todoId = { todo_id: +(e.target.getAttribute('data-id').slice(7)) }
+        console.log(todoId)
+        getTodoById(todoId);
+    } else {
+        return
+    }
+}
+
 if (submitButton) submitButton.addEventListener('click', addNewTodo);
 todoList.addEventListener('click', handleDeleteTodo);
+todoList.addEventListener('click', handleUpdateTodo)
 
 
 

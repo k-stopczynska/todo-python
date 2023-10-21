@@ -70,7 +70,7 @@ def get_by_status(status):
 
 
 @app.route('/id/<todo_id>', endpoint='get_by_id')
-def get_by_status(todo_id):
+def get_by_id(todo_id):
     response = get_todo_by_id(db_name, table_name, todo_id)
     return jsonify(response)
 
