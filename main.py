@@ -45,20 +45,19 @@ def home():
         response = get_all_todos(db_name, table_name)
 
     if request.method == "PUT":
-        response = request.get_json()
+        response = request.get_json(force=True)
         todo_id = response['todo_id']
         update_todo(db_name, table_name, response, todo_id)
           
     if request.method == "DELETE":
         response = request.get_json()
-        delete_todo(db_name, table_name, response)
-    return jsonify(response)
+        delete_todo(db_name, table_name, response['todo_id'])
+        return jsonify(response['todo_id'])
 
 
 @app.route('/add_todo', methods=['GET', 'POST'])
 def add_todo():
     new_todo = request.get_json(force=True)
-    print(new_todo)
     add_new_todo(db_name, table_name, new_todo)
     return jsonify(new_todo)
 

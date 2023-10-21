@@ -2,6 +2,36 @@ const todoList = document.querySelector('.list__wrapper');
 const submitButton = document.querySelector('.submit__button');
 const BASE_URL = 'http://127.0.0.1:5000/'
 
+// const params = {
+//     endpointUrl: '',
+//     method: '',
+//     body: '',
+//     errorMessage: ''
+// }
+
+const getResponse = async (params) => {
+    const { endpointUrl, method, body, errorMessage } = params
+    try {
+              const response = await fetch(BASE_URL + endpointUrl,
+            {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    "Access-Control-Origin": "*"
+                },
+                body: JSON.stringify(body)
+            })    
+        if (!response.ok) {
+            throw new Error(errorMessage);
+        }
+        const data = await response.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 const getAllTodos = async () => {
     try {
         const response = await fetch(BASE_URL)
@@ -16,27 +46,16 @@ const getAllTodos = async () => {
 }
 
 const postNewTodo = async (newTodo) => {
-    const todo = JSON.stringify(newTodo);
-    try {
-        const response = await fetch(BASE_URL + 'add_todo',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    "Access-Control-Origin": "*"
-                },
-                body: todo
-            })
-        if (!response.ok) {
-            throw new Error('Could not add new todo!');
-        }
-        const addedTodo = await response.json();
-        return addedTodo;
-    } catch (err) {
-        console.log(err);
+        const params = {
+        endpointUrl: 'add_todo',
+        method: 'POST',
+        body: newTodo,
+        errorMessage: 'Could not add new todo!'
     }
+    getResponse(params)
 }
+
+
 
 
 const createTodoElem = async () => {
