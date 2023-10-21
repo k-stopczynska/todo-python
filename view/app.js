@@ -20,9 +20,24 @@ const createTodoElem = async () => {
     if (todos) {
         for (const todo of todos) {
             const todoElem = document.createElement('li')
-            todoElem.insertAdjacentHTML('afterbegin', `<h3>${todo['title']}</h3>
-            <p>${todo.description}</p>
-            <h4>${todo.status}</h4><span>${todo.deadline}</span>`)
+            todoElem.classList.add('list__elem')
+            todoElem.insertAdjacentHTML(
+                'afterbegin',
+                `<h3 class="list__elem-title">${todo['title']}</h3>
+                <p class="list__elem-desc">${todo.description}</p>
+                <div class="list__elem-just-between">
+                    <h4 class="list__elem-status">${todo.status}</h4>
+                    <p class="list__elem-date">${todo.deadline}</p>
+                </div>
+                <div class="list__elem-just-between">
+                    <a href='/update__todo'>
+                        <img class="list__elem-img" src='../assets/update.png' alt='update'/>
+                    </a>
+                    <button>
+                        <img class="list__elem-img" src='../assets/delete.png' alt='delete'/>
+                    </button>
+                </div>
+            `)
         todoList.append(todoElem)
     }
     }
