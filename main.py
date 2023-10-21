@@ -43,7 +43,6 @@ def home():
     response = None
     if request.method == 'GET':
         response = get_all_todos(db_name, table_name)
-        print(response)
 
     if request.method == "PUT":
         response = request.get_json()
@@ -62,7 +61,8 @@ def add_todo():
     print(new_todo)
     add_new_todo(db_name, table_name, new_todo)
     return jsonify(new_todo)
-       
+
+
 @app.route('/status/<status>', endpoint='get_by_status')
 def get_by_status(status):
     response = get_todos_by_status(db_name, table_name, status)
@@ -73,6 +73,7 @@ def get_by_status(status):
 def get_by_status(todo_id):
     response = get_todo_by_id(db_name, table_name, todo_id)
     return jsonify(response)
+
 
 
 

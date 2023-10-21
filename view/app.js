@@ -1,4 +1,5 @@
 const todoList = document.querySelector('.list__wrapper');
+const submitButton = document.querySelector('.submit__button');
 const BASE_URL = 'http://127.0.0.1:5000/'
 
 const getAllTodos = async () => {
@@ -13,8 +14,6 @@ const getAllTodos = async () => {
         console.log(err);
     }
 }
-
-const newTodo = {title: 'add new todo', description: 'test you api endpoint adding new todo', status: 'pending', deadline: '2023-10-22'}
 
 const postNewTodo = async (newTodo) => {
     const todo = JSON.stringify(newTodo);
@@ -38,8 +37,6 @@ const postNewTodo = async (newTodo) => {
         console.log(err);
     }
 }
-
-postNewTodo(newTodo);
 
 
 const createTodoElem = async () => {
@@ -71,6 +68,30 @@ const createTodoElem = async () => {
 }
 
 createTodoElem();
+
+const addNewTodo = (e) => {
+    e.preventDefault();
+    const form = document.querySelector('.form__control');
+    const formError = document.querySelector('.form__error')
+    const title = form[0].value.trim();
+    const description = form[1].value.trim();
+    const status = form[2].value.trim();
+    const deadline = form[3].value.trim();
+    if (title !== '' && description !== '' && status !== '' && deadline !== '') {
+        formError.classList.remove('active')
+        const newTodo = { title, description, status, deadline }
+        postNewTodo(newTodo);
+        form[0].value = '';
+        form[1].value = '';
+        form[2].value = '';
+        form[3].value = '';
+    } else {
+        formError.classList.add('active')
+    }
+
+}
+
+submitButton.addEventListener('click', addNewTodo);
 
 
 
