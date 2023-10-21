@@ -74,7 +74,7 @@ body {
 	line-height: 1.4rem;
 }
 
-.heading__button {
+.main__button {
 	text-decoration: none;
 	background: var(--primary-100);
 	padding: 0.725rem 3.5rem;
@@ -111,7 +111,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: .5rem;
+	gap: 0.5rem;
 }
 
 .list__elem-img {
@@ -121,6 +121,26 @@ body {
 
 .list__elem button {
 	border: none;
+}
+
+.form__control,
+.input__control {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	height: 100%;
+	width: 100%;
+}
+
+.form__control {
+	gap:1rem;
+	margin: 1rem auto
+}
+
+.input__control input,
+.input__control select,
+.input__control textarea {
+	padding: .5rem 1rem
 }
 
 @media (min-width: 768px) {
@@ -136,4 +156,17 @@ body {
 		font-size: 2.5rem;
 		line-height: 2.2rem;
 	}
+
+
+}
+
+@media (min-width: 1200px) {
+	.form__control,
+	.input__control {
+		width: 60%;
+	}
+
+	.form__control > .main__button {
+	width: 60%
+}
 }

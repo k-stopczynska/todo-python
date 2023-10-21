@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../styles.css" />
+		<script src="./app.js" defer></script>
+		<title>Add Todo</title>
+	</head>
+	<body>
+		<nav class="nav__container">
+			<ul class="list__container">
+				<li class="list__item">
+					<a class="list__item-link"
+						><img src="/assets/home.png" alt="home" /><span
+							>Home</span
+						></a
+					>
+				</li>
+				<li class="list__item">
+					<a class="list__item-link" href="/about">
+						<img src="/assets/about.png" alt="about" /><span
+							>About</span
+						></a
+					>
+				</li>
+				<li class="list__item">
+					<a class="list__item-link">
+						<img src="/assets/author.png" alt="authors" /><span
+							>Authors</span
+						></a
+					>
+				</li>
+			</ul>
+		</nav>
+		<main class="main__container">
+			<section class="form__section">
+        		<h1 class="main__heading">Add Todo</h1>
+			<form class="form__control" action="#" method="POST">
+				<div class="input__control">
+					<label for="title">Title</label>
+					<input type="text" placeholder="Todo title" name="title" />
+				</div>
+				<div class="input__control">
+					<label for="desc">Description</label>
+					<textarea
+						type="text"
+						placeholder="Todo description"
+						name="desc"
+						rows="5"
+					></textarea>
+				</div>
+				<div class="input__control">
+					<label for="status">Status</label>
+					<select placeholder="Todo status" name="status">
+						<option value="todo">todo</option>
+						<option value="pending">pending</option>
+						<option value="done">done</option>
+					</select>
+				</div>
+				<div class="input__control">
+					<label for="deadline">Deadline</label>
+					<input type="date" name="deadline" />
+				</div>
+
+				<button class="main__button" type="submit"> + Add Todo</button>
+			</form>
+		</main>
+	</body>
+</html>
