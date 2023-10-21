@@ -1,6 +1,9 @@
 const todoList = document.querySelector('.list__wrapper');
 const submitButton = document.querySelector('.submit__button');
-const BASE_URL = 'http://127.0.0.1:5000/'
+const updateButton = document.querySelector('.update__button');
+const form = document.querySelector('.form__control');
+const formError = document.querySelector('.form__error');
+const BASE_URL = 'http://127.0.0.1:5000/';
 
 
 const getResponse = async (params) => {
@@ -54,7 +57,7 @@ const getTodoById = async (todoId) => {
         throw new Error('Could not fetch this one!');
     }
         const todo = await response.json();
-        console.log(todo)
+        return todo
     } catch (err) {
         console.log(err);
     }
@@ -108,13 +111,10 @@ const createTodoElem = async () => {
     }
     }
 }
-
-createTodoElem();
+if (window.location.href === "http://localhost:5500/view/update_todo.html")createTodoElem();
 
 const addNewTodo = (e) => {
     e.preventDefault();
-    const form = document.querySelector('.form__control');
-    const formError = document.querySelector('.form__error')
     const title = form[0].value.trim();
     const description = form[1].value.trim();
     const status = form[2].value.trim();
@@ -145,19 +145,35 @@ const handleDeleteTodo = (e) => {
     }
 }
 
-const handleUpdateTodo = (e) => {
+const prepopulateForm = async (id) => {
+    const todoToUpdate = await getTodoById(id);
+    const { title, description, status, deadline } = todoToUpdate[0];
+    date = new Date(deadline)
+    form[0].value = title;
+    form[1].value = description;
+    form[2].value = status;
+    form[3].value = date.toJSON().split('T')[0];
+}
+
+const handleUpdateTodo = async (e) => {
     if (e.target.getAttribute('data-id').includes('update')) {
-        const todoId = { todo_id: +(e.target.getAttribute('data-id').slice(7)) }
-        console.log(todoId)
-        getTodoById(todoId);
+        const todoId = { todo_id: +(e.target.getAttribute('data-id').slice(7)) };
+        localStorage.setItem('id', JSON.stringify(todoId));
+        window.location.href = await "http://localhost:5500/view/update_todo.html"; 
     } else {
         return
-    }
+    } 
+}
+
+if (window.location.href === "http://localhost:5500/view/update_todo.html") {
+    const todoToUpdateId = JSON.parse(localStorage.getItem('id'));
+    prepopulateForm(todoToUpdateId)
 }
 
 if (submitButton) submitButton.addEventListener('click', addNewTodo);
-todoList.addEventListener('click', handleDeleteTodo);
-todoList.addEventListener('click', handleUpdateTodo)
+if (updateButton) updateButton.addEventListener('click', updateTodo);
+if (todoList) todoList.addEventListener('click', handleDeleteTodo);
+if (todoList) todoList.addEventListener('click', handleUpdateTodo);
 
 
 
