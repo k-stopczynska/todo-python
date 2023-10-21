@@ -1,6 +1,5 @@
 const todoList = document.querySelector('.list__wrapper');
 const submitButton = document.querySelector('.submit__button');
-const updateButton = document.querySelector('.update__button');
 const form = document.querySelector('.form__control');
 const formError = document.querySelector('.form__error');
 const BASE_URL = 'http://127.0.0.1:5000/';
@@ -29,9 +28,9 @@ const getResponse = async (params) => {
     }
 }
 
-const getAllTodos = async () => {
-    try {
-        const response = await fetch(BASE_URL, {       headers: {
+const getTodoByStatus = async (status) => {
+     try {
+        const response = await fetch(BASE_URL + `status/${status}`, {       headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'Access-Control-Origin': '*',
@@ -94,10 +93,26 @@ const deleteTodo = (todoId) => {
 }
 
 
-const createTodoElem = async () => {
-    const todos = await getAllTodos();
-    if (todos) {
-        for (const todo of todos) {
+const renderTodosByStatus = async () => {
+    const todoListTodo = document.querySelector('.list__wrapper-todo');
+    const todoListPending = document.querySelector('.list__wrapper-pending');
+    const todoListDone = document.querySelector('.list__wrapper-done');
+    const todoTodos = await getTodoByStatus('todo');
+    const pendingTodos = await getTodoByStatus('pending');
+    const doneTodos = await getTodoByStatus('done');
+    if (todoTodos) {
+       createTodoElem(todoTodos, todoListTodo)
+    }
+    if (pendingTodos) {
+       createTodoElem(pendingTodos, todoListPending)
+    }
+    if (doneTodos) {
+       createTodoElem(doneTodos, todoListDone)
+    }
+}
+
+const createTodoElem = (todos, list) => {
+     for (const todo of todos) {
             const todoElem = document.createElement('li')
             todoElem.classList.add('list__elem')
             const date = new Date(todo.deadline)
@@ -118,11 +133,11 @@ const createTodoElem = async () => {
                     </button>
                 </div>
             `)
-        todoList.append(todoElem)
-    }
+        list.append(todoElem)
     }
 }
-if (window.location.href === "http://localhost:5500/view/index.html")createTodoElem();
+
+if (window.location.href === "http://localhost:5500/view/index.html")renderTodosByStatus();
 
 const submitForm = (e) => {
     e.preventDefault();
@@ -144,6 +159,7 @@ const submitForm = (e) => {
         form[1].value = '';
         form[2].value = '';
         form[3].value = '';
+        window.location.href = "http://localhost:5500/view/index.html"
     } else {
         formError.classList.add('active')
     }

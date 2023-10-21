@@ -90,9 +90,9 @@ body {
 	margin-top: 3rem;
 }
 
-.list__wrapper {
+.section__list-wrapper {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(3, 1fr);
 	list-style: none;
 	gap: 1rem;
 }
