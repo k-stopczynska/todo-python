@@ -20,23 +20,23 @@ table_name = 'todo'
 #     resp.headers["Access-Control-Allow-Origin"] = "*"
 #     return resp
 
-def get_todos():
-    response = get_all_todos(db_name, table_name)
-    print(response)
-    return jsonify(response)
+# def get_todos():
+#     response = get_all_todos(db_name, table_name)
+#     print(response)
+#     return jsonify(response)
 
 
+# def update_existing_todo():
+#     updated_todo = request.get_json()
+#     todo_id = updated_todo['todo_id']
+#     update_todo(db_name, table_name, updated_todo, todo_id)
+#     return updated_todo
 
-def update_existing_todo():
-    updated_todo = request.get_json()
-    todo_id = updated_todo['todo_id']
-    update_todo(db_name, table_name, updated_todo, todo_id)
-    return updated_todo
 
-def remove_todo():
-    todo_id = request.get_json()
-    delete_todo(db_name, table_name, todo_id)
-    return todo_id
+# def remove_todo():
+#     todo_id = request.get_json()
+#     delete_todo(db_name, table_name, todo_id)
+#     return todo_id
 
 @app.route('/', methods=["GET", "PUT", "DELETE"])
 def home():
@@ -56,11 +56,12 @@ def home():
     return jsonify(response)
 
 
-@app.route('/add_todo', methods=['POST'])
+@app.route('/add_todo', methods=['GET', 'POST'])
 def add_todo():
-    new_todo = request.get_json()
+    new_todo = request.get_json(force=True)
+    print(new_todo)
     add_new_todo(db_name, table_name, new_todo)
-    return new_todo
+    return jsonify(new_todo)
        
 @app.route('/status/<status>', endpoint='get_by_status')
 def get_by_status(status):
