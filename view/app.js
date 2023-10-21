@@ -15,7 +15,7 @@ const getResponse = async (params) => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    "Access-Control-Origin": "*"
+                    "Access-Control-Origin": "*",
                 },
                 body: JSON.stringify(body),
             })    
@@ -34,7 +34,7 @@ const getAllTodos = async () => {
         const response = await fetch(BASE_URL, {       headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    "Access-Control-Origin": "*"
+                    'Access-Control-Origin': '*',
                 },})
     if (!response.ok) {
         throw new Error('Could not fetch todos!');
@@ -51,7 +51,7 @@ const getTodoById = async (todoId) => {
         const response = await fetch(BASE_URL + `id/${todoId['todo_id']}`, {       headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    "Access-Control-Origin": "*"
+                    'Access-Control-Origin': '*',
                 },})
     if (!response.ok) {
         throw new Error('Could not fetch this one!');
@@ -73,6 +73,16 @@ const postNewTodo = (newTodo) => {
     getResponse(params)
 }
 
+const updateExistingTodo = (todoToUpdate) => {
+    const params = {
+        endpointUrl: 'update_todo',
+        method: 'PUT',
+        body: todoToUpdate,
+        errorMessage: 'Could not update this todo!'
+    }
+    getResponse(params)
+}
+
 const deleteTodo = (todoId) => {
     const params = {
         endpointUrl: '/',
@@ -90,13 +100,14 @@ const createTodoElem = async () => {
         for (const todo of todos) {
             const todoElem = document.createElement('li')
             todoElem.classList.add('list__elem')
+            const date = new Date(todo.deadline)
             todoElem.insertAdjacentHTML(
                 'afterbegin',
                 `<h3 class="list__elem-title">${todo['title']}</h3>
                 <p class="list__elem-desc">${todo.description}</p>
                 <div class="list__elem-just-between">
                     <h4 class="list__elem-status">${todo.status}</h4>
-                    <p class="list__elem-date">${todo.deadline}</p>
+                    <p class="list__elem-date">${date.toJSON().split('T')[0]}</p>
                 </div>
                 <div class="list__elem-just-between">
                     <a href='#' data-id="update-${todo.todo_id}">
@@ -111,9 +122,9 @@ const createTodoElem = async () => {
     }
     }
 }
-if (window.location.href === "http://localhost:5500/view/update_todo.html")createTodoElem();
+if (window.location.href === "http://localhost:5500/view/index.html")createTodoElem();
 
-const addNewTodo = (e) => {
+const submitForm = (e) => {
     e.preventDefault();
     const title = form[0].value.trim();
     const description = form[1].value.trim();
@@ -122,7 +133,13 @@ const addNewTodo = (e) => {
     if (title !== '' && description !== '' && status !== '' && deadline !== '') {
         formError.classList.remove('active')
         const newTodo = { title, description, status, deadline }
-        postNewTodo(newTodo);
+        const todo_id = JSON.parse(localStorage.getItem('id'))['todo_id']
+        const todoToUpdate = {todo_id, title, description, status, deadline }
+        if (window.location.href === "http://localhost:5500/view/add_todo.html") {
+            postNewTodo(newTodo);
+        } else {
+            updateExistingTodo(todoToUpdate)
+        }
         form[0].value = '';
         form[1].value = '';
         form[2].value = '';
@@ -155,11 +172,11 @@ const prepopulateForm = async (id) => {
     form[3].value = date.toJSON().split('T')[0];
 }
 
-const handleUpdateTodo = async (e) => {
+const handleUpdateTodo = (e) => {
     if (e.target.getAttribute('data-id').includes('update')) {
         const todoId = { todo_id: +(e.target.getAttribute('data-id').slice(7)) };
         localStorage.setItem('id', JSON.stringify(todoId));
-        window.location.href = await "http://localhost:5500/view/update_todo.html"; 
+        window.location.href = "http://localhost:5500/view/update_todo.html"; 
     } else {
         return
     } 
@@ -170,8 +187,7 @@ if (window.location.href === "http://localhost:5500/view/update_todo.html") {
     prepopulateForm(todoToUpdateId)
 }
 
-if (submitButton) submitButton.addEventListener('click', addNewTodo);
-if (updateButton) updateButton.addEventListener('click', updateTodo);
+if (submitButton) submitButton.addEventListener('click', submitForm);
 if (todoList) todoList.addEventListener('click', handleDeleteTodo);
 if (todoList) todoList.addEventListener('click', handleUpdateTodo);
 

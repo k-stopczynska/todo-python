@@ -6,7 +6,7 @@ from model.get_todos_by_status import get_todos_by_status
 from model.get_todo_by_id import get_todo_by_id
 from model.add_new_todo import add_new_todo
 from model.delete_todo import delete_todo
-from model.update_todo import update_todo
+from model.update_todo import update_todo_db
 
 
 app = Flask(__name__)
@@ -14,41 +14,13 @@ CORS(app)
 db_name = 'todos'
 table_name = 'todo'
 
-# @app.after_request
-# def add_security_headers(resp):
-#     resp.headers['Content-Security-Policy']='*'
-#     resp.headers["Access-Control-Allow-Origin"] = "*"
-#     return resp
 
-# def get_todos():
-#     response = get_all_todos(db_name, table_name)
-#     print(response)
-#     return jsonify(response)
-
-
-# def update_existing_todo():
-#     updated_todo = request.get_json()
-#     todo_id = updated_todo['todo_id']
-#     update_todo(db_name, table_name, updated_todo, todo_id)
-#     return updated_todo
-
-
-# def remove_todo():
-#     todo_id = request.get_json()
-#     delete_todo(db_name, table_name, todo_id)
-#     return todo_id
-
-@app.route('/', methods=["GET", "PUT", "DELETE"])
+@app.route('/', methods=["GET", "DELETE"])
 def home():
     response = None
     if request.method == 'GET':
         response = get_all_todos(db_name, table_name)
         return jsonify(response)
-
-    if request.method == "PUT":
-        response = request.get_json(force=True)
-        todo_id = response['todo_id']
-        update_todo(db_name, table_name, response, todo_id)
           
     if request.method == "DELETE":
         response = request.get_json()
@@ -56,11 +28,20 @@ def home():
         return jsonify(response)
 
 
-@app.route('/add_todo', methods=['GET', 'POST'])
+@app.route('/add_todo', methods=['POST'])
 def add_todo():
     new_todo = request.get_json(force=True)
     add_new_todo(db_name, table_name, new_todo)
     return jsonify(new_todo)
+
+
+@app.route('/update_todo', methods=['PUT'])
+def update_todo():
+    todo_to_update = request.get_json(force=True)
+    todo_id = todo_to_update['todo_id']
+    print(todo_to_update)
+    update_todo_db(db_name, table_name, todo_to_update, todo_id)
+    return jsonify(todo_to_update)
 
 
 @app.route('/status/<status>', endpoint='get_by_status')
@@ -73,10 +54,6 @@ def get_by_status(status):
 def get_by_id(todo_id):
     response = get_todo_by_id(db_name, table_name, todo_id)
     return jsonify(response)
-
-
-
-
 
 
 if __name__ == '__main__':
