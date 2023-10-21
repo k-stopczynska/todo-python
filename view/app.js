@@ -14,6 +14,29 @@ const getAllTodos = async () => {
     }
 }
 
+const newTodo = {title: 'add new todo', description: 'test you api endpoint adding new todo', status: 'pending', date: '2023-10-22'}
+
+const postNewTodo = async(newTodo) => {
+    try {
+        const response = await fetch(BASE_URL + '/add_todo',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newTodo)
+            })
+        if (!response.ok) {
+            throw new Error('Could not add new todo!');
+        }
+        const addedTodo = await response.json();
+        return addedTodo;
+    } catch (err) {
+        console.log(err);
+    }
+    
+}
+
 
 const createTodoElem = async () => {
     const todos = await getAllTodos();
@@ -43,7 +66,9 @@ const createTodoElem = async () => {
     }
 }
 
-createTodoElem()
+createTodoElem();
+
+
 
 
 

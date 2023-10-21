@@ -134,7 +134,7 @@ body {
 
 .form__control {
 	gap:1rem;
-	margin: 1rem auto
+	margin: 2rem auto
 }
 
 .input__control input,
@@ -160,7 +160,7 @@ body {
 
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1100px) {
 	.form__control,
 	.input__control {
 		width: 60%;
