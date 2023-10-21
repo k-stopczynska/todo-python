@@ -9,6 +9,7 @@
 :root {
 	--primary-100: #ab52db;
 	--primary-200: #ebdaf4;
+	--secondary-100: rgb(50, 99, 50);
 	--light-100: #f3f2f7;
 	--dark-900: #464255;
 	--border-radius: 0.5rem;
@@ -97,10 +98,29 @@ body {
 	gap: 1rem;
 }
 
-.list__elem {
+.list__wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.list__wrapper-todo .list__elem {
 	border: 1px solid var(--primary-200);
-	border-radius: var(--border-radius);
 	box-shadow: 1px 1px 10px var(--primary-200);
+}
+
+.list__wrapper-pending .list__elem {
+	border: 1px solid var(--primary-100);
+	box-shadow: 1px 1px 10px var(--primary-100);
+}
+
+.list__wrapper-done .list__elem {
+	border: 1px solid var(--primary-200);
+	box-shadow: 1px 1px 10px var(--secondary-100);
+}
+
+.list__elem {
+	border-radius: var(--border-radius);
 	padding: 0.5rem 1rem;
 	display: flex;
 	flex-direction: column;

@@ -1,10 +1,10 @@
-const todoList = document.querySelector('.list__wrapper');
+const todoLists = document.querySelectorAll('.list__wrapper');
 const submitButton = document.querySelector('.submit__button');
 const form = document.querySelector('.form__control');
 const formError = document.querySelector('.form__error');
 const BASE_URL = 'http://127.0.0.1:5000/';
 
-
+//TODO: refactor this fn for get requests
 const getResponse = async (params) => {
     const { endpointUrl, method, body, errorMessage } = params
     try {
@@ -30,7 +30,8 @@ const getResponse = async (params) => {
 
 const getTodoByStatus = async (status) => {
      try {
-        const response = await fetch(BASE_URL + `status/${status}`, {       headers: {
+         const response = await fetch(BASE_URL + `status/${status}`, {
+             headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'Access-Control-Origin': '*',
@@ -46,8 +47,9 @@ const getTodoByStatus = async (status) => {
 }
 
 const getTodoById = async (todoId) => {
-           try {
-        const response = await fetch(BASE_URL + `id/${todoId['todo_id']}`, {       headers: {
+    try {
+        const response = await fetch(BASE_URL + `id/${todoId['todo_id']}`, {
+            headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'Access-Control-Origin': '*',
@@ -137,7 +139,7 @@ const createTodoElem = (todos, list) => {
     }
 }
 
-if (window.location.href === "http://localhost:5500/view/index.html")renderTodosByStatus();
+if (window.location.href === "http://localhost:5500/view/index.html") renderTodosByStatus();
 
 const submitForm = (e) => {
     e.preventDefault();
@@ -169,10 +171,13 @@ const handleDeleteTodo = (e) => {
     if (e.target.getAttribute('data-id').includes('delete')) {
         const todoId = { todo_id: +(e.target.getAttribute('data-id').slice(7)) }
         deleteTodo(todoId);
-        while (todoList.lastElementChild) {
-        todoList.removeChild(todoList.lastElementChild);
+        for (list of todoLists) {
+            while (list.lastElementChild) {
+        list.removeChild(list.lastElementChild);
         }
-        createTodoElem();
+        }
+       
+       renderTodosByStatus();
     } else {
         return
     }
@@ -204,8 +209,8 @@ if (window.location.href === "http://localhost:5500/view/update_todo.html") {
 }
 
 if (submitButton) submitButton.addEventListener('click', submitForm);
-if (todoList) todoList.addEventListener('click', handleDeleteTodo);
-if (todoList) todoList.addEventListener('click', handleUpdateTodo);
+if (todoLists) todoLists.forEach((list) => list.addEventListener('click', handleDeleteTodo));
+if (todoLists) todoLists.forEach((list) => list.addEventListener('click', handleUpdateTodo));
 
 
 
