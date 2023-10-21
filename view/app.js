@@ -2,12 +2,6 @@ const todoList = document.querySelector('.list__wrapper');
 const submitButton = document.querySelector('.submit__button');
 const BASE_URL = 'http://127.0.0.1:5000/'
 
-// const params = {
-//     endpointUrl: '',
-//     method: '',
-//     body: '',
-//     errorMessage: ''
-// }
 
 const getResponse = async (params) => {
     const { endpointUrl, method, body, errorMessage } = params
@@ -34,7 +28,11 @@ const getResponse = async (params) => {
 
 const getAllTodos = async () => {
     try {
-        const response = await fetch(BASE_URL)
+        const response = await fetch(BASE_URL, {       headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    "Access-Control-Origin": "*"
+                },})
     if (!response.ok) {
         throw new Error('Could not fetch todos!');
     }
@@ -45,8 +43,8 @@ const getAllTodos = async () => {
     }
 }
 
-const postNewTodo = async (newTodo) => {
-        const params = {
+const postNewTodo = (newTodo) => {
+    const params = {
         endpointUrl: 'add_todo',
         method: 'POST',
         body: newTodo,
@@ -55,7 +53,15 @@ const postNewTodo = async (newTodo) => {
     getResponse(params)
 }
 
-
+const deleteTodo = (todoId) => {
+    const params = {
+        endpointUrl: '/',
+        method: 'DELETE',
+        body: todoId,
+        errorMessage: 'Could not delete todo!'
+    }
+    getResponse(params)
+}
 
 
 const createTodoElem = async () => {
@@ -76,8 +82,8 @@ const createTodoElem = async () => {
                     <a href='/update__todo'>
                         <img class="list__elem-img" src='../assets/update.png' alt='update'/>
                     </a>
-                    <button>
-                        <img class="list__elem-img" src='../assets/delete.png' alt='delete'/>
+                    <button data-id="delete-${todo.todo_id}" >
+                        <img class="list__elem-img" src='../assets/delete.png' alt='delete' data-id="delete-${todo.todo_id}"/>
                     </button>
                 </div>
             `)
@@ -107,10 +113,23 @@ const addNewTodo = (e) => {
     } else {
         formError.classList.add('active')
     }
-
 }
 
-submitButton.addEventListener('click', addNewTodo);
+const handleDeleteTodo = (e) => {
+    if (e.target.getAttribute('data-id').includes('delete')) {
+        const todoId = { todo_id: +(e.target.getAttribute('data-id').slice(7)) }
+        deleteTodo(todoId);
+        while (todoList.lastElementChild) {
+        todoList.removeChild(todoList.lastElementChild);
+        }
+        createTodoElem();
+    } else {
+        return
+    }
+}
+
+if (submitButton) submitButton.addEventListener('click', addNewTodo);
+todoList.addEventListener('click', handleDeleteTodo);
 
 
 

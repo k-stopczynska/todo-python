@@ -43,6 +43,7 @@ def home():
     response = None
     if request.method == 'GET':
         response = get_all_todos(db_name, table_name)
+        return jsonify(response)
 
     if request.method == "PUT":
         response = request.get_json(force=True)
@@ -52,7 +53,7 @@ def home():
     if request.method == "DELETE":
         response = request.get_json()
         delete_todo(db_name, table_name, response['todo_id'])
-        return jsonify(response['todo_id'])
+        return jsonify(response)
 
 
 @app.route('/add_todo', methods=['GET', 'POST'])
