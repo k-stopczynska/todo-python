@@ -14,7 +14,7 @@ const getAllTodos = async () => {
     }
 }
 
-const newTodo = {title: 'add new todo', description: 'test you api endpoint adding new todo', status: 'pending', date: '2023-10-22'}
+const newTodo = {title: 'add new todo', description: 'test you api endpoint adding new todo', status: 'pending', deadline: '2023-10-22'}
 
 const postNewTodo = async (newTodo) => {
     const todo = JSON.stringify(newTodo);
@@ -22,7 +22,6 @@ const postNewTodo = async (newTodo) => {
         const response = await fetch(BASE_URL + 'add_todo',
             {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -71,7 +70,7 @@ const createTodoElem = async () => {
     }
 }
 
-//createTodoElem();
+createTodoElem();
 
 
 
