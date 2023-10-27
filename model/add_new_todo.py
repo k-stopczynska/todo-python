@@ -2,6 +2,7 @@ from db.connect import get_connection
 from db.utils import map_tuple_to_dict
 
 def add_new_todo(db_name, table_name, todo):
+	db_connection = None
 	try:
 		cursor, db_connection = get_connection(db_name)
 		query = """INSERT INTO todo ({}) VALUES ('{}', '{}', '{}', '{}')""".format(
