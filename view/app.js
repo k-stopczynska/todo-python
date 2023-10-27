@@ -2,11 +2,11 @@ const todoLists = document.querySelectorAll('.list__wrapper');
 const submitButton = document.querySelector('.submit__button');
 const form = document.querySelector('.form__control');
 const formError = document.querySelector('.form__error');
-const BASE_URL = 'http://127.0.0.1:5000/';
+const BASE_URL = 'http://127.0.0.1:5001/';
 
 //TODO: refactor this fn for get requests
 const getResponse = async (params) => {
-    const { endpointUrl, method, body, errorMessage } = params
+    const { endpointUrl, method, errorMessage, body = null } = params
     try {
               const response = await fetch(BASE_URL + endpointUrl,
             {
@@ -175,7 +175,7 @@ const handleDeleteTodo = (e) => {
             while (list.lastElementChild) {
         list.removeChild(list.lastElementChild);
         }
-        }
+    }
        
        renderTodosByStatus();
     } else {

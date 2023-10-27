@@ -9,7 +9,8 @@
 :root {
 	--primary-100: #ab52db;
 	--primary-200: #ebdaf4;
-	--secondary-100: rgb(50, 99, 50);
+	--secondary-100: #326332;
+	--secondary-200: #373781;
 	--light-100: #f3f2f7;
 	--dark-900: #464255;
 	--border-radius: 0.5rem;

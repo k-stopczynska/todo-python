@@ -2,7 +2,7 @@ import logging
 from config import credentials
 
 
-def get_db_credentials():
+def get_db_credentials(credentials):
 	try:
 		user = credentials['user']
 		password = credentials['password']
@@ -29,3 +29,4 @@ def map_tuple_to_dict(collection):
 		 	'status': tuple[3],
 		 	'deadline': tuple[4]})
 	return data
+
