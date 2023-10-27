@@ -1,9 +1,9 @@
 import mysql.connector
 import logging
 from db.utils import get_db_credentials
+from config import credentials
 
-
-user, password, host = get_db_credentials()
+user, password, host = get_db_credentials(credentials)
 
 
 def connect_db(db_name):
@@ -12,9 +12,9 @@ def connect_db(db_name):
 			host=host, user=user, password=password, database=db_name
 		)
 		return db_connection
-	except mysql.connector.Error as e:
-		print(f"Error connecting to MySQL database: {e}")
-		raise e
+	# except mysql.connector.Error as e:
+	# 	print(f"Error connecting to MySQL database: {e}")
+	# 	raise e
 	except ValueError as e:
 		print(f"ValueError: {e}")
 		raise e

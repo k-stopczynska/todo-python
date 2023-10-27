@@ -2,6 +2,8 @@ from db.connect import get_connection
 from db.utils import map_tuple_to_dict
 
 def get_all_todos(db_name, table_name):
+	todos = []
+	db_connection = None
 	try:
 		cursor, db_connection = get_connection(db_name)
 		query = """SELECT * FROM {}""".format(table_name)
