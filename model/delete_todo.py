@@ -1,5 +1,5 @@
 from db.connect import get_connection
-from db.utils import map_tuple_to_dict
+from db.utils import map_tuple_to_dict, TableNotExist
 
 
 def delete_todo(db_name, table_name, todo_id):
@@ -16,6 +16,7 @@ def delete_todo(db_name, table_name, todo_id):
 		
 	except Exception as e:
 		print(e)
+		raise TableNotExist
 
 	finally:
 		if db_connection:

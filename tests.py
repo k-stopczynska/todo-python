@@ -1,7 +1,6 @@
 import unittest
 import datetime
-from config import credentials
-from db.utils import get_db_credentials, map_tuple_to_dict
+from db.utils import get_db_credentials, map_tuple_to_dict, TableNotExist
 from model.get_all_todos import get_all_todos
 from model.get_todos_by_status import get_todos_by_status
 from model.get_todo_by_id import get_todo_by_id
@@ -12,7 +11,8 @@ from model.delete_todo import delete_todo
 class TestUtils(unittest.TestCase):
 
 	def test_get_db_credentials_real_credentials(self):
-		self.assertEqual(get_db_credentials(credentials), ('root','Leonberger888','localhost') )
+		credentials = {'user': 'root', 'password': 'blabla', 'host': 'localhost'}
+		self.assertEqual(get_db_credentials(credentials), ('root', 'blabla', 'localhost'))
 
 	def test_get_db_credentials_fake_credentials(self):
 		fake_credentials = {'host': '', 'user': '', 'password': ''}
@@ -70,6 +70,11 @@ class TestGetAllTodos(unittest.TestCase):
 		 	'status': 'pending',
 		 	'deadline': datetime.date(2023, 11, 30)}])
 
+	def test_get_all_todos_incorrect_inputs_wrong_table(self):
+		db_name = 'todos'
+		table_name = 'todoss'
+		with self.assertRaises(TableNotExist):
+			get_all_todos(db_name, table_name)
 
 class TestGetTodosByStatus(unittest.TestCase):
 	def test_get_todos_by_status_correct_inputs_todo(self):
@@ -105,6 +110,12 @@ class TestGetTodosByStatus(unittest.TestCase):
 		 	'status': 'done',
 		 	'deadline': datetime.date(2023, 10, 27)}])
 
+	def test_get_todos_by_status_incorrect_inputs_wrong_table(self):
+		db_name = 'todos'
+		table_name = 'todoss'
+		with self.assertRaises(TableNotExist):
+			get_todos_by_status(db_name, table_name, 'pending')
+
 
 class TestGetTodosById(unittest.TestCase):
 	def test_get_todo_by_id_correct_input(self):
@@ -118,21 +129,38 @@ class TestGetTodosById(unittest.TestCase):
 				'deadline': datetime.date(2023, 10, 31)
 			}])
 
+	def test_get_todo_by_id_incorrect_inputs_wrong_table(self):
+		db_name = 'todos'
+		table_name = 'todoss'
+		with self.assertRaises(TableNotExist):
+			get_todo_by_id(db_name, table_name, 6)
+
 
 class TestAddNewTodo(unittest.TestCase):
 	def test_add_new_todo_correct_input(self):
 		db_name = 'todos'
 		table_name = 'todo'
 		new_todo = {
-				'title': 'test your code',
-				'description': 'use unittest to test your code with negative inputs also',
-				'status': 'in progress',
-				'deadline': '2023-11-30'}
+			'title': 'test your code',
+			'description': 'use unittest to test your code with negative inputs also',
+			'status': 'in progress',
+			'deadline': '2023-11-30'}
 		self.assertEqual(add_new_todo(db_name, table_name, new_todo), {
 				'title': 'test your code',
 				'description': 'use unittest to test your code with negative inputs also',
 				'status': 'in progress',
 				'deadline': '2023-11-30'})
+
+	def test_add_new_todo_incorrect_inputs_wrong_table(self):
+		db_name = 'todos'
+		table_name = 'todoss'
+		new_todo = {
+			'title': 'test your code',
+			'description': 'use unittest to test your code with negative inputs also',
+			'status': 'in progress',
+			'deadline': '2023-11-30'}
+		with self.assertRaises(TableNotExist):
+			add_new_todo(db_name, table_name, new_todo)
 
 
 class TestUpdateTodo(unittest.TestCase):
@@ -152,9 +180,28 @@ class TestUpdateTodo(unittest.TestCase):
 				'status': 'in progress',
 				'deadline': '2023-11-30'})
 
+	def test_update_todo_incorrect_inputs_wrong_table(self):
+		db_name = 'todos'
+		table_name = 'todoss'
+		updated_todo = {
+			'title': 'test your code',
+			'description': 'use unittest to test your code with negative inputs also',
+			'status': 'in progress',
+			'deadline': '2023-11-30'}
+		with self.assertRaises(TableNotExist):
+			update_todo_db(db_name, table_name, updated_todo, 6)
+
+
+
 
 class TestDeleteTodo(unittest.TestCase):
 	def test_delete_todo_correct_input(self):
 		db_name = 'todos'
 		table_name = 'todo'
 		self.assertEqual(delete_todo(db_name, table_name, 4), [])
+
+	def test_delete_todo_incorrect_inputs_wrong_table(self):
+		db_name = 'todos'
+		table_name = 'todoss'
+		with self.assertRaises(TableNotExist):
+			add_new_todo(db_name, table_name, 6)

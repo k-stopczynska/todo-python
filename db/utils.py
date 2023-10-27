@@ -30,3 +30,7 @@ def map_tuple_to_dict(collection):
 		 	'deadline': tuple[4]})
 	return data
 
+
+class TableNotExist(Exception):
+	pass
+

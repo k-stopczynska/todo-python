@@ -1,5 +1,6 @@
 from db.connect import get_connection
-from db.utils import map_tuple_to_dict
+from db.utils import map_tuple_to_dict, TableNotExist
+
 
 def get_all_todos(db_name, table_name):
 	todos = []
@@ -13,6 +14,7 @@ def get_all_todos(db_name, table_name):
 		cursor.close()
 	except Exception as e:
 		print(e)
+		raise TableNotExist()
 
 	finally:
 		if db_connection:

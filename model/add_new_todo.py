@@ -1,5 +1,5 @@
 from db.connect import get_connection
-from db.utils import map_tuple_to_dict
+from db.utils import map_tuple_to_dict, TableNotExist
 
 def add_new_todo(db_name, table_name, todo):
 	db_connection = None
@@ -20,6 +20,7 @@ def add_new_todo(db_name, table_name, todo):
 
 	except Exception as e:
 		print(e)
+		raise TableNotExist
 
 	finally:
 		if db_connection:

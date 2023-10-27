@@ -1,5 +1,5 @@
 from db.connect import get_connection
-from db.utils import map_tuple_to_dict
+from db.utils import map_tuple_to_dict, TableNotExist
 
 
 def get_todos_by_status(db_name, table_name, status):
@@ -15,6 +15,7 @@ def get_todos_by_status(db_name, table_name, status):
 
 	except Exception as e:
 		print(e)
+		raise TableNotExist
 
 	finally:
 		if db_connection:
