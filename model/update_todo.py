@@ -3,6 +3,7 @@ from db.utils import map_tuple_to_dict
 
 
 def update_todo_db(db_name, table_name, todo, todo_id):
+	db_connection = None
 	try:
 		cursor, db_connection = get_connection(db_name)
 		query = "UPDATE {} SET title=%s, description=%s, status=%s, deadline=%s WHERE todo_id=%s".format(table_name)

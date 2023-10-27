@@ -6,6 +6,8 @@ from model.get_all_todos import get_all_todos
 from model.get_todos_by_status import get_todos_by_status
 from model.get_todo_by_id import get_todo_by_id
 from model.add_new_todo import add_new_todo
+from model.update_todo import update_todo_db
+from model.delete_todo import delete_todo
 
 class TestUtils(unittest.TestCase):
 
@@ -131,3 +133,28 @@ class TestAddNewTodo(unittest.TestCase):
 				'description': 'use unittest to test your code with negative inputs also',
 				'status': 'in progress',
 				'deadline': '2023-11-30'})
+
+
+class TestUpdateTodo(unittest.TestCase):
+	def test_update_todo_correct_input(self):
+		db_name = 'todos'
+		table_name = 'todo'
+		updated_todo = {
+				'todo_id': 4,
+				'title': 'test your code',
+				'description': 'use unittest to test your code with negative inputs also',
+				'status': 'in progress',
+				'deadline': '2023-11-30'}
+		self.assertEqual(update_todo_db(db_name, table_name, updated_todo, 4), {
+				'todo_id': 4,
+				'title': 'test your code',
+				'description': 'use unittest to test your code with negative inputs also',
+				'status': 'in progress',
+				'deadline': '2023-11-30'})
+
+
+class TestDeleteTodo(unittest.TestCase):
+	def test_delete_todo_correct_input(self):
+		db_name = 'todos'
+		table_name = 'todo'
+		self.assertEqual(delete_todo(db_name, table_name, 4), [])

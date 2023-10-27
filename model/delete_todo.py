@@ -3,6 +3,8 @@ from db.utils import map_tuple_to_dict
 
 
 def delete_todo(db_name, table_name, todo_id):
+	db_connection = None
+	deleted_todo = {}
 	try:
 		cursor, db_connection = get_connection(db_name)
 		query = """DELETE FROM {} as t WHERE t.todo_id = {}""".format(table_name, todo_id)
