@@ -151,12 +151,16 @@ class TestGetTodosById(unittest.TestCase):
 		with self.assertRaises(TableNotExist):
 			get_todo_by_id(db_name, table_name, 6)
 
-	def test_get_todos_by_id_incorrect_inputs_wrong_status_name(self):
+	def test_get_todos_by_id_incorrect_inputs_variable_id_id(self):
+		db_name = 'todos'
+		table_name = 'todo'
+		self.assertEqual(get_todos_by_status(db_name, table_name, id), [])
+
+	def test_get_todos_by_id_incorrect_inputs_variable_id(self):
 		db_name = 'todos'
 		table_name = 'todo'
 		with self.assertRaises(NameError):
 			get_todos_by_status(db_name, table_name, something)
-
 
 class TestAddNewTodo(unittest.TestCase):
 	def test_add_new_todo_correct_input(self):
