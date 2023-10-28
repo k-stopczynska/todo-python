@@ -18,6 +18,9 @@ def add_new_todo(db_name, table_name, todo):
 		db_connection.commit()
 		cursor.close()
 
+	except AttributeError as e:
+		print(e)
+
 	except Exception as e:
 		print(e)
 		raise TableNotExist

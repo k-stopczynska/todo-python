@@ -177,6 +177,14 @@ class TestAddNewTodo(unittest.TestCase):
 				'status': 'in progress',
 				'deadline': '2023-11-30'})
 
+	def test_add_new_todo_incorrect_input_wrong_data_type(self):
+		db_name = 'todos'
+		table_name = 'todo'
+		new_todo = ('test your code', 'use unittest', 'in review', '2023-11-30')
+		with self.assertRaises(AttributeError) as err:
+			add_new_todo(db_name, table_name, new_todo)
+			self.assertEquals(str(err.exception),"'tuple' object has no attribute 'keys'")
+
 	def test_add_new_todo_incorrect_inputs_wrong_table(self):
 		db_name = 'todos'
 		table_name = 'todoss'
