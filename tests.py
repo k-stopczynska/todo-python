@@ -110,11 +110,22 @@ class TestGetTodosByStatus(unittest.TestCase):
 		 	'status': 'done',
 		 	'deadline': datetime.date(2023, 10, 27)}])
 
+	def test_get_todos_by_status_incorrect_inputs_undefined_status_name(self):
+		db_name = 'todos'
+		table_name = 'todo'
+		self.assertEqual(get_todos_by_status(db_name, table_name, 456), [])
+
 	def test_get_todos_by_status_incorrect_inputs_wrong_table(self):
 		db_name = 'todos'
 		table_name = 'todoss'
 		with self.assertRaises(TableNotExist):
 			get_todos_by_status(db_name, table_name, 'pending')
+
+	def test_get_todos_by_status_incorrect_inputs_status_name_variable(self):
+		db_name = 'todos'
+		table_name = 'todo'
+		with self.assertRaises(NameError):
+			get_todos_by_status(db_name, table_name, done)
 
 
 class TestGetTodosById(unittest.TestCase):
@@ -129,11 +140,22 @@ class TestGetTodosById(unittest.TestCase):
 				'deadline': datetime.date(2023, 10, 31)
 			}])
 
+	def test_get_todo_by_id_incorrect_input_undefined_id(self):
+		db_name = 'todos'
+		table_name = 'todo'
+		self.assertEqual(get_todo_by_id(db_name, table_name, 456789456), [])
+
 	def test_get_todo_by_id_incorrect_inputs_wrong_table(self):
 		db_name = 'todos'
 		table_name = 'todoss'
 		with self.assertRaises(TableNotExist):
 			get_todo_by_id(db_name, table_name, 6)
+
+	def test_get_todos_by_id_incorrect_inputs_wrong_status_name(self):
+		db_name = 'todos'
+		table_name = 'todo'
+		with self.assertRaises(NameError):
+			get_todos_by_status(db_name, table_name, something)
 
 
 class TestAddNewTodo(unittest.TestCase):

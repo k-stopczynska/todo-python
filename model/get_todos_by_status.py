@@ -23,4 +23,4 @@ def get_todos_by_status(db_name, table_name, status):
 			print("Connection closed")
 	return todos
 
-get_todos_by_status('todos', 'todo', 'done')
+print(get_todos_by_status('todos', 'todo', 456))
