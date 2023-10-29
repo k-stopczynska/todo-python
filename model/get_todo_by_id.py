@@ -10,6 +10,9 @@ def get_todo_by_id(db_name, table_name, todo_id):
 		todo = map_tuple_to_dict(result)
 		cursor.close()
 
+	except AttributeError as e:
+		print(e)
+
 	except Exception as e:
 		print(e)
 		raise TableNotExist

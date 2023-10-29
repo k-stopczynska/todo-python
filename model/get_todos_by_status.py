@@ -13,6 +13,9 @@ def get_todos_by_status(db_name, table_name, status):
 		todos = map_tuple_to_dict(results)
 		cursor.close()
 
+	except AttributeError as e:
+		print(e)
+
 	except Exception as e:
 		print(e)
 		raise TableNotExist

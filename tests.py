@@ -1,5 +1,6 @@
 import unittest
 import datetime
+import mysql.connector
 from db.utils import get_db_credentials, map_tuple_to_dict, TableNotExist
 from model.get_all_todos import get_all_todos
 from model.get_todos_by_status import get_todos_by_status
@@ -184,6 +185,17 @@ class TestAddNewTodo(unittest.TestCase):
 		with self.assertRaises(AttributeError) as err:
 			add_new_todo(db_name, table_name, new_todo)
 			self.assertEquals(str(err.exception),"'tuple' object has no attribute 'keys'")
+
+	def test_add_new_todo_incorrect_input_wrong_data_type_inside(self):
+		db_name = 'todos'
+		table_name = 'todo'
+		new_todo = {
+			'title': 123456,
+			'description': 'use unittest to test your code with negative inputs also',
+			'status': 'in review',
+			'deadline': '2023-11-30'}
+		with self.assertRaises(Exception) as err:
+			self.assertEquals(str(err.exception),"Data truncated for column 'status' at row 1")
 
 	def test_add_new_todo_incorrect_inputs_wrong_table(self):
 		db_name = 'todos'
