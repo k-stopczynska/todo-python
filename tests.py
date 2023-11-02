@@ -216,13 +216,13 @@ class TestUpdateTodo(unittest.TestCase):
 		db_name = 'todos'
 		table_name = 'todo'
 		updated_todo = {
-				'todo_id': 4,
+				'todo_id': 5,
 				'title': 'test your code',
 				'description': 'use unittest to test your code with negative inputs also',
 				'status': 'in progress',
 				'deadline': '2023-11-30'}
 		self.assertEqual(update_todo_db(db_name, table_name, updated_todo, 4), {
-				'todo_id': 4,
+				'todo_id': 5,
 				'title': 'test your code',
 				'description': 'use unittest to test your code with negative inputs also',
 				'status': 'in progress',
@@ -262,4 +262,27 @@ class TestHomeRoute(unittest.TestCase):
 		response = self.app.get('/')
 		data = json.loads(response.data.decode('utf-8'))
 		self.assertEqual(response.status_code, 200)
+
+	def test_delete_request(self):
+		request_data = {'todo_id': 1}
+		response = self.app.delete('/', json=request_data)
+		data = json.loads(response.data.decode('utf-8'))
+		self.assertEqual(response.status_code, 200)
+
+
+class TestAddTodoRoute(unittest.TestCase):
+	def setUp(self):
+		self.app = app.test_client()
+
+	def test_add_todo_request(self):
+		request_data = {
+        'deadline': '2023-11-17',  # Correct date format
+        'description': 'remember about electronics',
+        'status': 'in progress',
+        'title': 'swipe dust'
+    }
+		response = self.app.post('/add_todo', json=request_data)
+		data = json.loads(response.data.decode('utf-8'))
+		self.assertEqual(response.status_code, 200)
+
 
