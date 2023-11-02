@@ -1,6 +1,6 @@
 import unittest
 import datetime
-import mysql.connector
+import json
 from db.utils import get_db_credentials, map_tuple_to_dict, TableNotExist
 from model.get_all_todos import get_all_todos
 from model.get_todos_by_status import get_todos_by_status
@@ -8,6 +8,7 @@ from model.get_todo_by_id import get_todo_by_id
 from model.add_new_todo import add_new_todo
 from model.update_todo import update_todo_db
 from model.delete_todo import delete_todo
+from main import app
 
 class TestUtils(unittest.TestCase):
 
@@ -163,6 +164,7 @@ class TestGetTodosById(unittest.TestCase):
 		with self.assertRaises(NameError):
 			get_todos_by_status(db_name, table_name, something)
 
+
 class TestAddNewTodo(unittest.TestCase):
 	def test_add_new_todo_correct_input(self):
 		db_name = 'todos'
@@ -238,8 +240,6 @@ class TestUpdateTodo(unittest.TestCase):
 			update_todo_db(db_name, table_name, updated_todo, 6)
 
 
-
-
 class TestDeleteTodo(unittest.TestCase):
 	def test_delete_todo_correct_input(self):
 		db_name = 'todos'
@@ -251,3 +251,15 @@ class TestDeleteTodo(unittest.TestCase):
 		table_name = 'todoss'
 		with self.assertRaises(TableNotExist):
 			add_new_todo(db_name, table_name, 6)
+
+
+class TestHomeRoute(unittest.TestCase):
+
+	def setUp(self):
+		self.app = app.test_client()
+
+	def test_get_requests(self):
+		response = self.app.get('/')
+		data = json.loads(response.data.decode('utf-8'))
+		self.assertEqual(response.status_code, 200)
+
